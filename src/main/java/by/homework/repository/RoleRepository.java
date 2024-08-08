@@ -1,0 +1,21 @@
+package by.homework.repository;
+
+import java.util.List;
+
+import by.homework.entity.Role;
+import by.homework.exception.DaoException;
+import by.homework.repository.RoleRepository;
+
+public interface RoleRepository {
+
+    public void insertRole(Role role) throws DaoException;
+
+    public void updateRole(Role role) throws DaoException;
+
+
+    public Role getRoleById(int id) throws DaoException;
+
+    public void deleteRole(int id) throws DaoException;
+
+    public List<Role> findAllRoles() throws DaoException;
+}

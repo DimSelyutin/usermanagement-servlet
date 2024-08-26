@@ -1,20 +1,25 @@
-package by.homework.controller.routes;
+package by.homework.controller;
 
-import by.homework.controller.Command;
+
 import by.homework.exception.ServiceException;
 import by.homework.service.RoleService;
 import by.homework.service.impl.RoleServiceImpl;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
-
-public class DeleteRole implements Command {
+@RequiredArgsConstructor
+@WebServlet("/roles/delete")
+public class DeleteRole extends HttpServlet {
     private final RoleService roleService = RoleServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         int roleId = Integer.parseInt(request.getParameter("id"));
 
         try {

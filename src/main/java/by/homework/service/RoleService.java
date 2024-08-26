@@ -7,7 +7,7 @@ import by.homework.exception.ServiceException;
 
 public interface RoleService {
 
-    public void insertRole(Role role) throws ServiceException;
+    public void saveRole(Role role) throws ServiceException;
 
     public Role getRoleById(int id) throws ServiceException;
 

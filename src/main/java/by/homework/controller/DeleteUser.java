@@ -1,20 +1,23 @@
-package by.homework.controller.routes;
+package by.homework.controller;
 
-import by.homework.controller.Command;
 import by.homework.exception.ServiceException;
 import by.homework.service.UserService;
 import by.homework.service.impl.UserServiceImple;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class DeleteUser implements Command {
+@WebServlet("/users/delete")
+public class DeleteUser extends HttpServlet {
     private final UserService userService = UserServiceImple.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Long userId = Long.parseLong(request.getParameter("id"));
 
         try {

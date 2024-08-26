@@ -8,7 +8,7 @@ import by.homework.repository.RoleRepository;
 
 public interface RoleRepository {
 
-    public void insertRole(Role role) throws DaoException;
+    public void saveRole(Role role) throws DaoException;
 
     public void updateRole(Role role) throws DaoException;
 

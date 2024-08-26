@@ -25,9 +25,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void insertRole(Role role) throws ServiceException {
+    public void saveRole(Role role) throws ServiceException {
         try {
-            roleRepository.insertRole(role);
+            roleRepository.saveRole(role);
         } catch (DaoException e) {
             throw new ServiceException("Error occurred while inserting role");
         }

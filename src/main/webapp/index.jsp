@@ -10,7 +10,7 @@
             </head>
 
             <body>
-                <c:redirect url="controller?command=go_to_main_page" />
+                <c:redirect url="/users" />
             </body>
 
             </html>

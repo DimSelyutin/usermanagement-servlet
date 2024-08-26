@@ -4,7 +4,7 @@ import java.util.List;
 
 import by.homework.entity.User;
 
-public interface UserRepository {
+public interface UserRepository{
 
     public void createUser(User user);
 

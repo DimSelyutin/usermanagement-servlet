@@ -14,6 +14,11 @@ public class GuestUser extends User {
         return guestPass;
     }
 
+    public GuestUser(String firstname, String email, int age, String guestPass) {
+        super(null, firstname, email, age, null);
+        this.guestPass = guestPass;
+    }
+
     public void setGuestPass(String guestPass) {
         this.guestPass = guestPass;
     }

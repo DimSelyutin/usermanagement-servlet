@@ -1,4 +1,5 @@
 package by.homework.controller;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -14,15 +15,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
-
 @WebServlet("/role")
 public class UpdateRoleServlet extends HttpServlet {
     private final RoleService roleService = RoleServiceImpl.getInstance();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Long roleId = Long.parseLong(request.getParameter("id"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
@@ -33,7 +33,7 @@ public class UpdateRoleServlet extends HttpServlet {
             return;
         }
 
-        Role updatedRole = new Role(roleId, name, description, null);
+        Role updatedRole = new Role(roleId, name, description, null, null);
 
         try {
             roleService.updateRole(updatedRole);

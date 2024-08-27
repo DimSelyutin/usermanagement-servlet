@@ -1,0 +1,1 @@
+CREATE INDEX idx_role_id ON roles(id);

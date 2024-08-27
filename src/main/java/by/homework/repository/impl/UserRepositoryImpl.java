@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.management.relation.RoleNotFoundException;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -42,7 +41,7 @@ public class UserRepositoryImpl implements UserRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DaoException("Error occurred while inserting USER", e);
+            throw new DaoException("Error occurred while inserting USER {}", e);
 
         }
     }
@@ -62,8 +61,8 @@ public class UserRepositoryImpl implements UserRepository {
     public List<User> findAllUsers() {
         List<User> users = null;
         try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
-            // Создание HQL запроса для получения всех пользователей
-            String hql = "FROM User";
+            // Использование LEFT JOIN FETCH для немедленной загрузки ролей
+            String hql = "SELECT u FROM User u LEFT JOIN FETCH u.roles";
             Query<User> query = session.createQuery(hql, User.class);
             users = query.getResultList();
         } catch (Exception e) {
@@ -112,7 +111,8 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return isUpdated;
     }
-    //использовал JOIN FETCH для устранения LazyInitEx
+
+    // использовал JOIN FETCH для устранения LazyInitEx
     @Override
     public void assignRoleToUser(Long userId, Long roleId) {
         Transaction transaction = null;

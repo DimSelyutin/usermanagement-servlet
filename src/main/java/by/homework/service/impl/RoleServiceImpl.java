@@ -1,27 +1,21 @@
 package by.homework.service.impl;
 
 import by.homework.entity.Role;
-import by.homework.entity.User;
 import by.homework.exception.DaoException;
 import by.homework.exception.ServiceException;
 import by.homework.repository.RoleRepository;
-import by.homework.repository.UserRepository;
 import by.homework.repository.impl.RoleRepositoryImpl;
-import by.homework.repository.impl.UserRepositoryImpl;
 import by.homework.service.RoleService;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 public class RoleServiceImpl implements RoleService {
     private static RoleServiceImpl instance;
     private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
 
     private RoleServiceImpl() {
         roleRepository = RoleRepositoryImpl.getInstance();
-        userRepository = UserRepositoryImpl.getInstance();
+
     }
 
     public static RoleServiceImpl getInstance() {
@@ -41,6 +35,15 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public void saveRoles(List<Role> roles) throws ServiceException {
+        try {
+            roleRepository.saveRoles(roles);
+        } catch (DaoException e) {
+            throw new ServiceException("Error occurred while inserting roles");
+        }
+    }
+
+    @Override
     public Role findRoleById(Long id) throws ServiceException {
         try {
             return roleRepository.findRoleById(id);
@@ -53,6 +56,15 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> getAllRoles() throws ServiceException {
         try {
             return roleRepository.findAllRoles();
+        } catch (DaoException e) {
+            throw new ServiceException("Error occurred while getting all roles");
+        }
+    }
+
+    @Override
+    public List<Role> getRolesWithIdGreaterThan2000(int pageNumber, int pageSize) throws ServiceException {
+        try {
+            return roleRepository.getRolesWithIdGreaterThan2000(pageNumber, pageSize);
         } catch (DaoException e) {
             throw new ServiceException("Error occurred while getting all roles");
         }

@@ -11,4 +11,5 @@ public class RequestRole {
     
     private String name;
     private String description;
+    private String accessLevel;
 }

@@ -2,7 +2,6 @@ package by.homework.service.impl;
 
 import java.util.List;
 
-import by.homework.entity.Role;
 import by.homework.entity.User;
 import by.homework.exception.ConnectionException;
 import by.homework.exception.ServiceException;

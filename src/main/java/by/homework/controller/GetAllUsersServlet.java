@@ -1,8 +1,5 @@
 package by.homework.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import by.homework.entity.Role;
 import by.homework.entity.User;
 import by.homework.service.UserService;
 import by.homework.service.impl.UserServiceImple;

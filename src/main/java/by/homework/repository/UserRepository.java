@@ -2,7 +2,6 @@ package by.homework.repository;
 
 import java.util.List;
 
-import by.homework.entity.Role;
 import by.homework.entity.User;
 
 public interface UserRepository {

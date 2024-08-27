@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import by.homework.dto.request.RequestUser;
+import by.homework.entity.AdminUser;
 import by.homework.entity.CommonUser;
 import by.homework.entity.GuestUser;
 import by.homework.entity.User;
@@ -24,7 +25,6 @@ public class UpdateUserServelt extends HttpServlet {
 
    private final UserService userService = UserServiceImple.getInstance();
 
-
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
       try {
@@ -33,11 +33,18 @@ public class UpdateUserServelt extends HttpServlet {
 
          User updatedUser;
          if ("guest".equalsIgnoreCase(requestUser.getUserType())) {
-            updatedUser = new GuestUser();
-            updatedUser.setFirstname(requestUser.getFirstname());
-            updatedUser.setEmail(requestUser.getEmail());
-            updatedUser.setAge(requestUser.getAge());
-            ((GuestUser) updatedUser).setGuestPass(requestUser.getGuestPass());
+            updatedUser = new GuestUser(
+                  requestUser.getFirstname(),
+                  requestUser.getEmail(),
+                  requestUser.getAge(),
+                  requestUser.getGuestPass());
+         } else if ("admin".equalsIgnoreCase(requestUser.getUserType())) {
+            updatedUser = new AdminUser(
+                  requestUser.getFirstname(),
+                  requestUser.getEmail(),
+                  requestUser.getAge(),
+                  requestUser.getAdminLevel());
+            log.info("User: ", updatedUser);
          } else {
             updatedUser = new CommonUser(
                   requestUser.getFirstname(),

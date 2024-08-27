@@ -4,7 +4,6 @@ import by.homework.dto.request.RequestRole;
 import by.homework.entity.Role;
 import by.homework.service.RoleService;
 import by.homework.service.impl.RoleServiceImpl;
-import by.homework.exception.ServiceException;
 import by.homework.util.JsonUtil;
 
 import jakarta.servlet.ServletException;

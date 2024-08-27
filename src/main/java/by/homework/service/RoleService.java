@@ -13,7 +13,11 @@ public interface RoleService {
 
     public List<Role> getAllRoles() throws ServiceException;
 
+    public List<Role> getRolesWithIdGreaterThan2000(int pageNumber, int pageSize) throws ServiceException;
+
     public void updateRole(Role role) throws ServiceException;
 
     public void deleteRole(Long id) throws ServiceException;
+
+    public void saveRoles(List<Role> roles) throws ServiceException;
 }

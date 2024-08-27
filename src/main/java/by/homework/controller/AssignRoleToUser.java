@@ -2,12 +2,8 @@ package by.homework.controller;
 
 import java.io.IOException;
 
-import by.homework.dto.request.RequestRole;
 import by.homework.dto.request.RequestUserRole;
-import by.homework.entity.Role;
-import by.homework.service.RoleService;
 import by.homework.service.UserService;
-import by.homework.service.impl.RoleServiceImpl;
 import by.homework.service.impl.UserServiceImple;
 import by.homework.util.JsonUtil;
 import jakarta.servlet.ServletException;

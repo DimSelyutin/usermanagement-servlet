@@ -10,8 +10,11 @@ public interface RoleRepository {
 
     public void saveRole(Role role) throws DaoException;
 
-    public void updateRole(Role role) throws DaoException;
+    public void saveRoles(List<Role> roles) throws DaoException;
 
+    public List<Role> getRolesWithIdGreaterThan2000(int pageNumber, int pageSize);
+
+    public void updateRole(Role role) throws DaoException;
 
     public Role findRoleById(Long id) throws DaoException;
 

@@ -21,5 +21,6 @@ public interface UserService {
 
     // Update user
     public boolean updateUser(User user);
+    void assignRoleToUser(Long userId, Long roleId);
 
 }

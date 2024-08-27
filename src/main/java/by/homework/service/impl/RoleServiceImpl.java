@@ -1,20 +1,27 @@
 package by.homework.service.impl;
 
 import by.homework.entity.Role;
+import by.homework.entity.User;
 import by.homework.exception.DaoException;
 import by.homework.exception.ServiceException;
 import by.homework.repository.RoleRepository;
-import by.homework.repository.impl.RoleDaoImpl;
+import by.homework.repository.UserRepository;
+import by.homework.repository.impl.RoleRepositoryImpl;
+import by.homework.repository.impl.UserRepositoryImpl;
 import by.homework.service.RoleService;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 public class RoleServiceImpl implements RoleService {
     private static RoleServiceImpl instance;
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     private RoleServiceImpl() {
-        roleRepository = RoleDaoImpl.getInstance();
+        roleRepository = RoleRepositoryImpl.getInstance();
+        userRepository = UserRepositoryImpl.getInstance();
     }
 
     public static RoleServiceImpl getInstance() {
@@ -34,9 +41,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getRoleById(int id) throws ServiceException {
+    public Role findRoleById(Long id) throws ServiceException {
         try {
-            return roleRepository.getRoleById(id);
+            return roleRepository.findRoleById(id);
         } catch (DaoException e) {
             throw new ServiceException("Error occurred while getting role by ID");
         }
@@ -61,11 +68,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void deleteRole(int id) throws ServiceException {
+    public void deleteRole(Long id) throws ServiceException {
         try {
             roleRepository.deleteRole(id);
         } catch (DaoException e) {
             throw new ServiceException("Error occurred while deleting role");
         }
     }
+
 }

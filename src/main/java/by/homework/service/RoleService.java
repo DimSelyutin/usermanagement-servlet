@@ -9,11 +9,11 @@ public interface RoleService {
 
     public void saveRole(Role role) throws ServiceException;
 
-    public Role getRoleById(int id) throws ServiceException;
+    public Role findRoleById(Long id) throws ServiceException;
 
     public List<Role> getAllRoles() throws ServiceException;
 
     public void updateRole(Role role) throws ServiceException;
 
-    public void deleteRole(int id) throws ServiceException;
+    public void deleteRole(Long id) throws ServiceException;
 }

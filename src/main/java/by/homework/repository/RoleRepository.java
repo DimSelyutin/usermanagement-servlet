@@ -13,9 +13,9 @@ public interface RoleRepository {
     public void updateRole(Role role) throws DaoException;
 
 
-    public Role getRoleById(int id) throws DaoException;
+    public Role findRoleById(Long id) throws DaoException;
 
-    public void deleteRole(int id) throws DaoException;
+    public void deleteRole(Long id) throws DaoException;
 
     public List<Role> findAllRoles() throws DaoException;
 }

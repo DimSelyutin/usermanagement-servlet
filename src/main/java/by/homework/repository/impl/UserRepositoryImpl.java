@@ -2,15 +2,21 @@ package by.homework.repository.impl;
 
 import java.util.List;
 
+import javax.management.relation.RoleNotFoundException;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import by.homework.config.ConfigHibernate;
+import by.homework.entity.Role;
 import by.homework.entity.User;
 import by.homework.exception.DaoException;
 import by.homework.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class UserRepositoryImpl implements UserRepository {
     private static UserRepository instance = null;
 
@@ -26,7 +32,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     // Create or insert user
-    public void createUser(User user) {
+    public void saveUser(User user) {
         Transaction transaction = null;
         try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -105,5 +111,34 @@ public class UserRepositoryImpl implements UserRepository {
             isUpdated = false;
         }
         return isUpdated;
+    }
+    //использовал JOIN FETCH для устранения LazyInitEx
+    @Override
+    public void assignRoleToUser(Long userId, Long roleId) {
+        Transaction transaction = null;
+        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            Role role = session.get(Role.class, roleId);
+            if (role == null) {
+                throw new RoleNotFoundException(String.format("Role not found with id:%d", roleId));
+            }
+            // Загрузка пользователя вместе с его ролями
+            User user = session.createQuery("FROM User u JOIN FETCH u.roles WHERE u.id = :userId", User.class)
+                    .setParameter("userId", userId)
+                    .uniqueResult();
+
+            if (user != null) {
+                user.getRoles().add(role);
+                session.update(user); // Обновление пользователя с новой ролью
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            log.info("user: {}", e.getMessage());
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DaoException("Error occurred while assigning role to user", e);
+        }
     }
 }

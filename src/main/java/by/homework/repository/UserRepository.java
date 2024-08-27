@@ -2,11 +2,12 @@ package by.homework.repository;
 
 import java.util.List;
 
+import by.homework.entity.Role;
 import by.homework.entity.User;
 
-public interface UserRepository{
+public interface UserRepository {
 
-    public void createUser(User user);
+    public void saveUser(User user);
 
     public User findUserById(Long id);
 
@@ -18,4 +19,7 @@ public interface UserRepository{
 
     // Update user
     public boolean updateUser(User user);
+
+    void assignRoleToUser(Long userId, Long roleId);
+
 }

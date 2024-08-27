@@ -2,12 +2,18 @@ package by.homework.service.impl;
 
 import java.util.List;
 
+import by.homework.entity.Role;
 import by.homework.entity.User;
 import by.homework.exception.ConnectionException;
+import by.homework.exception.ServiceException;
+import by.homework.repository.RoleRepository;
 import by.homework.repository.UserRepository;
+import by.homework.repository.impl.RoleRepositoryImpl;
 import by.homework.repository.impl.UserRepositoryImpl;
 import by.homework.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class UserServiceImple implements UserService {
     private static UserService instance = null;
 
@@ -23,6 +29,7 @@ public class UserServiceImple implements UserService {
     }
 
     UserRepository userRepository = UserRepositoryImpl.getInstance();
+    RoleRepository roleRepository = RoleRepositoryImpl.getInstance();
 
     @Override
     public boolean deleteUser(Long id) {
@@ -32,7 +39,7 @@ public class UserServiceImple implements UserService {
     @Override
     public void insertUser(User user) {
         try {
-            userRepository.createUser(user);
+            userRepository.saveUser(user);
         } catch (ConnectionException e) {
             e.printStackTrace();
         }
@@ -56,6 +63,17 @@ public class UserServiceImple implements UserService {
     public boolean updateUser(User user) {
         return userRepository.updateUser(user);
 
+    }
+
+    @Override
+    public void assignRoleToUser(Long userId, Long roleId) {
+        try {
+
+            userRepository.assignRoleToUser(userId, roleId);
+
+        } catch (Exception e) {
+            throw new ServiceException("Error occurred while assigning role to user", e);
+        }
     }
 
 }

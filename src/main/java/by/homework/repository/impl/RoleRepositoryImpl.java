@@ -9,16 +9,16 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class RoleDaoImpl implements RoleRepository {
+public class RoleRepositoryImpl implements RoleRepository {
 
-    private static RoleDaoImpl instance;
+    private static RoleRepositoryImpl instance;
 
-    private RoleDaoImpl() {
+    private RoleRepositoryImpl() {
     }
 
-    public static RoleDaoImpl getInstance() {
+    public static RoleRepositoryImpl getInstance() {
         if (instance == null) {
-            instance = new RoleDaoImpl();
+            instance = new RoleRepositoryImpl();
         }
         return instance;
     }
@@ -38,7 +38,7 @@ public class RoleDaoImpl implements RoleRepository {
     }
 
     @Override
-    public Role getRoleById(int id) throws DaoException {
+    public Role findRoleById(Long id) throws DaoException {
         try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
             return session.get(Role.class, id);
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class RoleDaoImpl implements RoleRepository {
     }
 
     @Override
-    public void deleteRole(int id) throws DaoException {
+    public void deleteRole(Long id) throws DaoException {
         Transaction transaction = null;
         try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();

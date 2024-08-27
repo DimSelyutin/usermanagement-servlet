@@ -1,6 +1,5 @@
 package by.homework.controller;
 
-
 import by.homework.exception.ServiceException;
 import by.homework.service.RoleService;
 import by.homework.service.impl.RoleServiceImpl;
@@ -12,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+
 @RequiredArgsConstructor
 @WebServlet("/roles/delete")
 public class DeleteRole extends HttpServlet {
@@ -20,7 +20,7 @@ public class DeleteRole extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int roleId = Integer.parseInt(request.getParameter("id"));
+        Long roleId = Long.parseLong(request.getParameter("id"));
 
         try {
             roleService.deleteRole(roleId);

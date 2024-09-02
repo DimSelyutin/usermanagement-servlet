@@ -4,26 +4,18 @@ import by.homework.entity.Role;
 import by.homework.exception.DaoException;
 import by.homework.exception.ServiceException;
 import by.homework.repository.RoleRepository;
-import by.homework.repository.impl.RoleRepositoryImpl;
 import by.homework.service.RoleService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class RoleServiceImpl implements RoleService {
-    private static RoleServiceImpl instance;
-    private final RoleRepository roleRepository;
 
-    private RoleServiceImpl() {
-        roleRepository = RoleRepositoryImpl.getInstance();
-
-    }
-
-    public static RoleServiceImpl getInstance() {
-        if (instance == null) {
-            instance = new RoleServiceImpl();
-        }
-        return instance;
-    }
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public void saveRole(Role role) throws ServiceException {

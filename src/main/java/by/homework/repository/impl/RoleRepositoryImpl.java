@@ -1,38 +1,31 @@
 package by.homework.repository.impl;
 
-import by.homework.config.ConfigHibernate;
 import by.homework.entity.Role;
-import by.homework.entity.User;
 import by.homework.exception.DaoException;
 import by.homework.repository.RoleRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
+@Repository
 public class RoleRepositoryImpl implements RoleRepository {
 
-    private static RoleRepositoryImpl instance;
-
-    private RoleRepositoryImpl() {
-    }
-
-    public static RoleRepositoryImpl getInstance() {
-        if (instance == null) {
-            instance = new RoleRepositoryImpl();
-        }
-        return instance;
-    }
+    private final SessionFactory sessionFactory;
 
     @Override
     public void saveRole(Role role) throws DaoException {
         Transaction transaction = null;
-        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.save(role);
             transaction.commit();
@@ -46,7 +39,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     @Override
     public void saveRoles(List<Role> roles) throws DaoException {
         Transaction transaction = null;
-        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             for (Role role : roles) {
                 session.save(role);
@@ -62,7 +55,7 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     @Override
     public Role findRoleById(Long id) throws DaoException {
-        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             return session.get(Role.class, id);
         } catch (Exception e) {
             throw new DaoException("Error occurred while getting role by ID", e);
@@ -72,7 +65,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     @Override
     public void deleteRole(Long id) throws DaoException {
         Transaction transaction = null;
-        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Role role = session.get(Role.class, id);
             if (role != null) {
@@ -90,7 +83,7 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     public List<Role> findAllRoles() {
         List<Role> roles = null;
-        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             // Использование LEFT JOIN FETCH для немедленной загрузки ролей
             String hql = "SELECT r FROM Role r LEFT JOIN FETCH r.users";
             Query<Role> query = session.createQuery(hql, Role.class);
@@ -104,7 +97,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     @Override
     public void updateRole(Role role) throws DaoException {
         Transaction transaction = null;
-        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.update(role);
             transaction.commit();
@@ -118,14 +111,14 @@ public class RoleRepositoryImpl implements RoleRepository {
     // Получение записей, где id > 2000
     @Override
     public List<Role> getRolesWithIdGreaterThan2000(int pageNumber, int pageSize) {
-        //вызов методов получения id и ролей по этм id
+        // вызов методов получения id и ролей по этм id
         List<Long> roleIds = getRoleIdsWithIdGreaterThan2000(pageNumber, pageSize);
         return getRolesByIds(roleIds);
     }
 
     // получение id
     public List<Long> getRoleIdsWithIdGreaterThan2000(int pageNumber, int pageSize) {
-        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Long> query = session.createQuery(
                     "SELECT r.id FROM Role r WHERE r.id > 2000", Long.class);
             query.setFirstResult((pageNumber - 1) * pageSize);
@@ -141,7 +134,7 @@ public class RoleRepositoryImpl implements RoleRepository {
             return Collections.emptyList();
         }
 
-        try (Session session = ConfigHibernate.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Role> query = session.createQuery(
                     "SELECT DISTINCT r FROM Role r LEFT JOIN FETCH r.users WHERE r.id IN (:ids)", Role.class);
             query.setParameter("ids", roleIds);

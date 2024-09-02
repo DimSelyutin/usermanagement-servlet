@@ -2,6 +2,9 @@ package by.homework.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import by.homework.entity.User;
 import by.homework.exception.ConnectionException;
 import by.homework.exception.ServiceException;
@@ -10,25 +13,18 @@ import by.homework.repository.UserRepository;
 import by.homework.repository.impl.RoleRepositoryImpl;
 import by.homework.repository.impl.UserRepositoryImpl;
 import by.homework.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@AllArgsConstructor
+@Service
 public class UserServiceImple implements UserService {
-    private static UserService instance = null;
 
-    private UserServiceImple() {
-
-    }
-
-    public static UserService getInstance() {
-        if (instance == null) {
-            instance = new UserServiceImple();
-        }
-        return instance;
-    }
-
-    UserRepository userRepository = UserRepositoryImpl.getInstance();
-    RoleRepository roleRepository = RoleRepositoryImpl.getInstance();
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public boolean deleteUser(Long id) {

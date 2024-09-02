@@ -1,0 +1,37 @@
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"https://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- JDBC Database connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/usermanagement</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">qwertyui</property>
+
+
+        <!-- JDBC connection pool settings ... using built-in test pool -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+
+        <!-- Select our SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+
+        <!-- Connect Cache 2lvl -->
+
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
+        <!-- Echo all executed SQL to stdout -->
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <!-- Names the annotated entity class -->
+        <mapping class="by.homework.entity.Role"/>
+        <mapping class="by.homework.entity.User"/>
+    </session-factory>
+
+</hibernate-configuration>

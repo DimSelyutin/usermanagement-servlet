@@ -6,7 +6,6 @@ import by.homework.entity.User;
 
 public interface UserService {
 
-
     // Create or insert user
     public void insertUser(User user);
 
@@ -17,10 +16,11 @@ public interface UserService {
     public List<User> selectAllUsers();
 
     // Delete user by id
-    public boolean deleteUser(Long id);
+    public void deleteUser(Long id);
 
     // Update user
-    public boolean updateUser(User user);
+    public void updateUser(User user);
+
     void assignRoleToUser(Long userId, Long roleId);
 
 }

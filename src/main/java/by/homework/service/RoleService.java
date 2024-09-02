@@ -1,23 +1,23 @@
 package by.homework.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import by.homework.entity.Role;
-import by.homework.exception.ServiceException;
 
 public interface RoleService {
 
-    public void saveRole(Role role) throws ServiceException;
+    public void saveRole(Role role);
 
-    public Role findRoleById(Long id) throws ServiceException;
+    public Optional<Role> findRoleById(Long id) ;
 
-    public List<Role> getAllRoles() throws ServiceException;
+    public List<Role> getAllRoles() ;
 
-    public List<Role> getRolesWithIdGreaterThan2000(int pageNumber, int pageSize) throws ServiceException;
+    public List<Role> getRolesWithIdGreaterThan2000(int pageNumber, int pageSize);
 
-    public void updateRole(Role role) throws ServiceException;
+    public void updateRole(Role role) ;
 
-    public void deleteRole(Long id) throws ServiceException;
+    public void deleteRole(Long id) ;
 
-    public void saveRoles(List<Role> roles) throws ServiceException;
+    public void saveRoles(List<Role> roles);
 }

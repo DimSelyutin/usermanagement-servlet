@@ -2,144 +2,65 @@ package by.homework.repository.impl;
 
 import by.homework.entity.Role;
 import by.homework.exception.DaoException;
-import by.homework.repository.RoleRepository;
+import by.homework.repository.CustomRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@Repository
-public class RoleRepositoryImpl implements RoleRepository {
+public class RoleRepositoryImpl implements CustomRoleRepository {
 
-    private final SessionFactory sessionFactory;
-
-    @Override
-    public void saveRole(Role role) throws DaoException {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.save(role);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null)
-                transaction.rollback();
-            throw new DaoException("Error occurred while inserting role", e);
-        }
-    }
+    // private final SessionFactory sessionFactory;
 
     @Override
-    public void saveRoles(List<Role> roles) throws DaoException {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            for (Role role : roles) {
-                session.save(role);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new DaoException("Error occurred while inserting roles", e);
-        }
-    }
-
-    @Override
-    public Role findRoleById(Long id) throws DaoException {
-        try (Session session = sessionFactory.openSession()) {
-            return session.get(Role.class, id);
-        } catch (Exception e) {
-            throw new DaoException("Error occurred while getting role by ID", e);
-        }
-    }
-
-    @Override
-    public void deleteRole(Long id) throws DaoException {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Role role = session.get(Role.class, id);
-            if (role != null) {
-                session.delete(role);
-                transaction.commit();
-            } else {
-                throw new DaoException("Role with id " + id + " not found.");
-            }
-        } catch (Exception e) {
-            if (transaction != null)
-                transaction.rollback();
-            throw new DaoException("Error occurred while deleting role", e);
-        }
-    }
-
-    public List<Role> findAllRoles() {
-        List<Role> roles = null;
-        try (Session session = sessionFactory.openSession()) {
-            // Использование LEFT JOIN FETCH для немедленной загрузки ролей
-            String hql = "SELECT r FROM Role r LEFT JOIN FETCH r.users";
-            Query<Role> query = session.createQuery(hql, Role.class);
-            roles = query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return roles;
-    }
-
-    @Override
-    public void updateRole(Role role) throws DaoException {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.update(role);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null)
-                transaction.rollback();
-            throw new DaoException("Error occurred while updating role", e);
-        }
-    }
-
-    // Получение записей, где id > 2000
-    @Override
+    @Transactional(readOnly = true)
     public List<Role> getRolesWithIdGreaterThan2000(int pageNumber, int pageSize) {
-        // вызов методов получения id и ролей по этм id
         List<Long> roleIds = getRoleIdsWithIdGreaterThan2000(pageNumber, pageSize);
         return getRolesByIds(roleIds);
     }
 
-    // получение id
+    @Transactional(readOnly = true)
     public List<Long> getRoleIdsWithIdGreaterThan2000(int pageNumber, int pageSize) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Long> query = session.createQuery(
-                    "SELECT r.id FROM Role r WHERE r.id > 2000", Long.class);
-            query.setFirstResult((pageNumber - 1) * pageSize);
-            query.setMaxResults(pageSize);
+        // try (Session session = sessionFactory.openSession()) {
+        // Query<Long> query = session.createQuery(
+        // "SELECT r.id FROM Role r WHERE r.id > 2000", Long.class);
+        // query.setFirstResult((pageNumber - 1) * pageSize);
+        // query.setMaxResults(pageSize);
 
-            return query.list();
-        }
+        // return query.list();
+        // } catch (Exception e) {
+        // log.error("Error occurred while fetching role IDs with ID greater than 2000",
+        // e);
+        // throw new DaoException("An error occurred while fetching role IDs.", e);
+        // }
+        return null;
     }
 
-    // получение ролей
+    @Transactional(readOnly = true)
     public List<Role> getRolesByIds(List<Long> roleIds) {
-        if (roleIds == null || roleIds.isEmpty()) {
-            return Collections.emptyList();
-        }
+        // if (roleIds == null || roleIds.isEmpty()) {
+        // return Collections.emptyList();
+        // }
 
-        try (Session session = sessionFactory.openSession()) {
-            Query<Role> query = session.createQuery(
-                    "SELECT DISTINCT r FROM Role r LEFT JOIN FETCH r.users WHERE r.id IN (:ids)", Role.class);
-            query.setParameter("ids", roleIds);
+        // try (Session session = sessionFactory.openSession()) {
+        // Query<Role> query = session.createQuery(
+        // "SELECT DISTINCT r FROM Role r LEFT JOIN FETCH r.users WHERE r.id IN (:ids)",
+        // Role.class);
+        // query.setParameter("ids", roleIds);
 
-            return query.list();
-        }
+        // return query.list();
+        // } catch (Exception e) {
+        // log.error("Error occurred while fetching roles by IDs", e);
+        // throw new DaoException("An error occurred while fetching roles.", e);
+        // }
+        return null;
     }
 }

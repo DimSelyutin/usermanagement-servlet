@@ -1,6 +1,7 @@
 package by.homework.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "admin_users")
